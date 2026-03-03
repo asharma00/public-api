@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <title>Belgium Transportation Public APIs</title>
+        <link rel="stylesheet" href="styles.css">
+        <link rel="stylesheet" href="css/bootstrap.min.css">
+    </head>
+
+    <body class="belgium-page">
+        <div class="login-card">
+            <div class="brand">
+                <div class="brand-logo"></div>
+                <h1>Belgium Transportation APIs</h1>
+                <p>Get details of trains and vehicles in Belgium</p>
+            </div>
+            <form id="loginForm" method="post">
+                <div class="form-group main-option">
+                    <label for="apiType">Retrieve the information<span class="necessary">*</span></label>
+                    <select id="apiType" name="apiType" class="minimal">
+                        <option value=""> -- SELECT -- </option>
+                        <option value="stations">List of all stations</option>
+                        <option value="liveboard">Real-time information on arriving and departing trains</option>
+                        <option value="connections">Get routes between two stations</option>
+                        <option value="vehicle">Information about a vehicle</option>
+                        <option value="composition">Information about composition of a train</option>
+                        <option value="disturbances">Information about current disturbances</option>
+                    </select>
+                </div>
+
+                <div class="form-group liveboard field-hidden">
+                    <label for="station">Station name<span class="necessary">*</span></label>
+                    <input type="text" id="station" name="station" placeholder="Gent-Sint-Pieters">
+                </div>
+
+                <div class="form-group liveboard field-hidden">
+                    <label for="sid">Station ID</label>
+                    <input type="text" id="sid" name="sid" placeholder="BE.NMBS.008892007">
+                </div>
+
+                <div class="form-group vehicle field-hidden">
+                    <label for="vid">Vehicle ID<span class="necessary">*</span></label>
+                    <input type="text" id="vid" name="vid" placeholder="BE.NMBS.IC1832">
+                </div>
+
+                <div class="form-group connections field-hidden">
+                    <label for="fromStation">From station<span class="necessary">*</span></label>
+                    <input type="text" id="fromStation" name="fromStation" placeholder="Gent-Sint-Pieters">
+                </div>
+
+                <div class="form-group connections field-hidden">
+                    <label for="toStation">To station<span class="necessary">*</span></label>
+                    <input type="text" id="toStation" name="toStation" placeholder="Mechelen">
+                </div>
+
+                <div class="form-group liveboard connections vehicle field-hidden">
+                    <label for="date">Date of arrival / departure</label>
+                    <input type="text" id="date" name="date" placeholder="DDMMYY - e.g. 180525">
+                </div>
+
+                <div class="form-group liveboard connections field-hidden">
+                    <label for="time">Time of arrival / departure</label>
+                    <input type="text" id="time" name="time" placeholder="hhmm - e.g. 1402">
+                </div>
+
+                <div class="form-group connections field-hidden">
+                    <label for="transportType">Type of transport</label>
+                    <select id="transportType" name="transportType" class="minimal">
+                        <option value=""> -- SELECT -- </option>
+                        <option value="automatic">Automatic</option>
+                        <option value="trains">Trains</option>
+                        <option value="nointernationaltrains">No international trains</option>
+                        <option value="all">All</option>
+                    </select>
+                </div>
+
+                <div class="form-group composition field-hidden">
+                    <label for="tid">Train ID<span class="necessary">*</span></label>
+                    <input type="text" id="tid" name="tid" placeholder="S51507">
+                </div>
+
+                <div class="form-group vehicle liveboard field-hidden">
+                    <label for="alert">Include alerts about a train?</label>
+                    <div style="display: flex;">
+                        <label>
+                            <input type="radio" id="true" name="alert" value="true" />
+                            <span class="radio-label">True</span>
+                        </label>
+                        <label>
+                            <input type="radio" id="false" name="alert" value="false" />
+                            <span class="radio-label">False</span>
+                        </label>
+                    </div>
+                </div>
+
+                <div class="form-group connections liveboard field-hidden">
+                    <label for="arrdep">Time selection</label>
+                    <div style="display: flex;">
+                        <label>
+                            <input type="radio" id="arrival" name="arrdep" value="arrival" />
+                            <span class="radio-label">Arrival</span>
+                        </label>
+                        <label>
+                            <input type="radio" id="departure" name="arrdep" value="departure" />
+                            <span class="radio-label">Departure</span>
+                        </label>
+                    </div>
+                </div>
+
+                <input type="submit" value="Get results" class="login-btn" id="loginButton" formaction="/get-results">
+            </form>
+        </div>
+
+        <div class="result-div"> 
+            <% if(locals.disturbContent) { %>
+                <%- include('disturbance.ejs') %>
+            <% } %>
+        </div>
+
+        <script src="js/bootstrap.bundle.min.js"></script>
+
+        <script>
+            document.getElementById('apiType').addEventListener('change', () => {
+                var formGroups = document.querySelectorAll('.form-group');
+                for(i = 1; i < formGroups.length; i++) {
+                    formGroups[i].classList.add('field-hidden');
+                    if(formGroups[i].classList.contains(document.getElementById('apiType').value))    
+                        formGroups[i].classList.remove('field-hidden');
+                }
+            })
+        </script>
+    </body>
+</html>
