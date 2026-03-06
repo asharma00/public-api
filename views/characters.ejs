@@ -1,0 +1,43 @@
+<% if (locals.characters) { %>
+    <% if (characters.length !== 0 && Array.isArray(characters) ) { %>
+        <div class="character-card-box">
+            <% characters.forEach(character => { %>
+                <a href="/profile/<%= character._id %>">
+                    <div class="card transparent-background">
+                        <img src="<%= character.imageUrl %>" class="card-img-top image-aspect" alt="<%= character.name %>">
+                        <div class="card-body no-padding">
+                            <h5 class="card-title center-text no-margin-bottom uppercase"> <%= character.name %> </h5>
+                            <% if (character.films.length !== 0) { %>
+                                <p class="card-text center-text"> <%= character.films[0] %> </p>
+                            <% } else if (character.shortFilms.length !== 0) { %>
+                                <p class="card-text center-text"> <%= character.shortFilms[0] %> </p>
+                            <% } else if (character.tvShows.length !== 0) { %>
+                                <p class="card-text center-text"> <%= character.tvShows[0] %> </p>
+                            <% } %>
+                        </div>
+                    </div>
+                </a>
+            <% }) %>
+        </div>
+    <% } else if (characters.length !== 0) { %>
+        <div class="character-card-box">
+            <a href="/profile/<%= characters._id %>">
+                <div class="card transparent-background">
+                    <img src="<%= characters.imageUrl %>" class="card-img-top image-aspect" alt="<%= characters.name %>">
+                    <div class="card-body no-padding">
+                        <h5 class="card-title center-text no-margin-bottom uppercase"> <%= characters.name %> </h5>
+                        <% if (characters.films.length !== 0) { %>
+                            <p class="card-text center-text"> <%= characters.films[0] %> </p>
+                        <% } else if (characters.shortFilms.length !== 0) { %>
+                            <p class="card-text center-text"> <%= characters.shortFilms[0] %> </p>
+                        <% } else if (characters.tvShows.length !== 0) { %>
+                            <p class="card-text center-text"> <%= characters.tvShows[0] %> </p>
+                        <% } %>
+                    </div>
+                </div>
+            </a>
+        </div>
+    <% } else { %>
+        <div>No characters found.</div>
+    <% } %>
+<% } %>

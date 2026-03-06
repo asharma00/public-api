@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <title>Disney Public API</title>
+        <link rel="stylesheet" href="/styles.css">
+        <link rel="stylesheet" href="/css/bootstrap.min.css">
+    </head>
+
+    <body class="main-page">
+        <h1 class="title" style="margin-bottom: 2rem;">Disney Characters</h1>
+
+        <div>
+            <div class="text-center"> <img src="<%= character.imageUrl %>" class="image-aspect" alt="<%= character.name %>"> </div>
+            <h3 class="center-text uppercase" style="margin-bottom: 2rem; text-decoration: underline;"> <%= character.name %> </h3>
+
+            <%
+                const sections = [
+                    { label: "Films", key: "films" },
+                    { label: "Short films", key: "shortFilms" },
+                    { label: "TV shows", key: "tvShows" },
+                    { label: "Video games", key: "videoGames" },
+                    { label: "Park attractions", key: "parkAttractions" },
+                    { label: "Allies", key: "allies" },
+                    { label: "Enemies", key: "enemies" }
+                ];
+            %>
+
+            <table class="table" style="width: max-content; margin: 0 auto;">
+                <% sections.forEach(section => { %>
+                    <% if (character[section.key] && character[section.key].length !== 0) { %>
+                        <tr>
+                            <td class="uppercase bold-text yellow-colour"><%= section.label %></td>
+                            <td class="yellow-colour">
+                                <ul>
+                                    <% character[section.key].forEach(item => { %>
+                                        <li><%= item %></li>
+                                    <% }) %>
+                                </ul>
+                            </td>
+                        </tr>
+                    <% } %>
+                <% }) %>
+            </table>
+        </div>
+
+        <script src="/js/bootstrap.bundle.min.js"></script>
+        
+    </body>
+</html>
